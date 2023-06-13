@@ -21,6 +21,6 @@ from dashboard.views import dashboard_view
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
-    path('', TemplateView.as_view(template_name='login.html'), name='home'),
+    path('', TemplateView.as_view(template_name='dashboard.html'), name='dashboard'),
     path('dashboard/', dashboard_view, name="dashboard"),
 ]

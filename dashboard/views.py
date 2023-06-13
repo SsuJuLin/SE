@@ -1,6 +1,7 @@
 from django.shortcuts import render
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+@login_required
 def dashboard_view(request):
     # 在這裡處理從後端獲取數據等相關邏輯
     context = {

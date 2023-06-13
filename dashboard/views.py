@@ -1,5 +1,31 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from .forms import ProfileForm, NotificationForm
+
+@login_required
+def settings_view(request):
+    user = request.user
+    profile = user
+
+    if request.method == 'POST':
+        profile_form = ProfileForm(request.POST, instance=profile)
+        notification_form = NotificationForm(request.POST, instance=profile)
+
+        if profile_form.is_valid() and notification_form.is_valid():
+            profile_form.save()
+            notification_form.save()
+            return redirect('settings')  # 保存後重新導向到設定頁面
+
+    else:
+        profile_form = ProfileForm(instance=profile)
+        notification_form = NotificationForm(instance=profile)
+
+    context = {
+        'profile_form': profile_form,
+        'notification_form': notification_form,
+    }
+
+    return render(request, 'settings.html', context)
 # Create your views here.
 @login_required
 def dashboard_view(request):
@@ -11,3 +37,32 @@ def dashboard_view(request):
         # 其他變數...
     }
     return render(request, 'dashboard.html', context)
+
+
+
+@login_required
+def update_profile(request):
+    user = request.user
+    if request.method == 'POST':
+        profile_form = ProfileForm(request.POST, instance=user.profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect('settings')  # 重定向到設定頁面
+    else:
+        profile_form = ProfileForm(instance=user.profile)
+
+    return render(request, 'settings.html', {'profile_form': profile_form})
+
+
+@login_required
+def update_notification(request):
+    user = request.user
+    if request.method == 'POST':
+        notification_form = NotificationForm(request.POST, instance=user.notification_settings)
+        if notification_form.is_valid():
+            notification_form.save()
+            return redirect('settings')  # 重定向到設定頁面
+    else:
+        notification_form = NotificationForm(instance=user.notification_settings)
+
+    return render(request, 'settings.html', {'notification_form': notification_form})

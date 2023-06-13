@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}設定{% endblock %}
+
+{% block content %}
+  <h1>基本資料</h1>
+  <form action="{% url 'update_profile' %}" method="post" class="form">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="email" class="form-label">Email：</label>
+      <input type="email" id="email" name="email" value="{{ user.email }}" class="form-control" disabled>
+    </div>
+
+    <div class="mb-3">
+      <label for="username" class="form-label">使用者名稱：</label>
+      <input type="text" id="username" name="username" value="{{ user.username }}" class="form-control" disabled>
+    </div>
+
+    <div class="mb-3">
+      <label for="first_name" class="form-label">姓氏：</label>
+      <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="last_name" class="form-label">名字：</label>
+      <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="birthday" class="form-label">生日：</label>
+      <input type="date" id="birthday" name="birthday" value="{{ user.birthday|date:'Y-m-d' }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="street" class="form-label">街道：</label>
+      <input type="text" id="street" name="street" value="{{ user.street }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="house_number" class="form-label">號碼：</label>
+      <input type="text" id="house_number" name="house_number" value="{{ user.house_number }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="town" class="form-label">鄉鎮市區：</label>
+      <select id="town" name="town" class="form-select">
+        <option value="">請選擇鄉鎮市區</option>
+        {% for town in towns %}
+          <option value="{{ town }}" {% if town == user.town %}selected{% endif %}>{{ town }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="city" class="form-label">縣市：</label>
+      <select id="city" name="city" onchange="updateTowns()" class="form-select">
+        <option value="">請選擇縣市</option>
+        {% for city in cities %}
+          <option value="{{ city }}" {% if city == user.city %}selected{% endif %}>{{ city }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <input type="submit" value="儲存" class="btn btn-primary">  </form>
+
+
+  <h1>通知或提醒</h1>
+  <form action="{% url 'update_notification' %}" method="post" class="form">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="news_notification" class="form-label">最新消息：</label>
+      <input type="checkbox" id="news_notification" name="news_notification" {% if user.news_notification %}checked{% endif %} class="form-check-input">
+    </div>
+
+
+<div class="mb-3">
+  <label for="activity_notification" class="form-label">帳號活動：</label>
+  <input type="checkbox" id="activity_notification" name="activity_notification" {% if user.activity_notification %}checked{% endif %} class="form-check-input">
+</div>
+
+<div class="mb-3">
+  <label for="promotion_notification" class="form-label">優惠訊息：</label>
+  <input type="checkbox" id="promotion_notification" name="promotion_notification" {% if user.promotion_notification %}checked{% endif %} class="form-check-input">
+</div>
+
+<input type="submit" value="儲存" class="btn btn-primary">
+
+  </form>
+
+
+  <script>
+    function updateTowns() {
+      var citySelect = document.getElementById("city");
+      var townSelect = document.getElementById("town");
+      var city = citySelect.options[citySelect.selectedIndex].value;
+      var towns = JSON.parse("{{ town_options_json|escapejs }}");
+
+      // Remove current town options
+      while (townSelect.options.length > 0) {
+        townSelect.remove(0);
+      }
+
+      // Add town options based on selected city
+      for (var i = 0; i < towns[city].length; i++) {
+        var option = document.createElement("option");
+        option.value = towns[city][i];
+        option.text = towns[city][i];
+        townSelect.add(option);
+      }
+    }
+  </script>
+
+
+{% endblock %}

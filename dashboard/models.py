@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -9,11 +11,9 @@ class User(AbstractUser):
     house_number = models.CharField(max_length=10)
     town = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
-def __str__(self):
-        return self.username
-    
-class NotificationSettings(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,default=None)
     news_notification = models.BooleanField(default=False)
     activity_notification = models.BooleanField(default=False)
     promotion_notification = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.username

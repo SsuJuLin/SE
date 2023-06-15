@@ -2,27 +2,31 @@
 
 {% block content %}
   <div class="row" style="margin-top: 20px;margin-left:-200px;width:800px;">
-    <div class="col-md-4" style="border-style:solid;border-width:medium;">  <!-- 客戶管理 -->
-      <h3>客戶資料</h3>
-      <div class="customer">
-        <div class="customer-info">
-          <h4>客戶姓名</h4>
-          <p>陳OO</p>
-        </div>
-        <div class="customer-info">
-          <h4>照片</h4>
-          <img src="image/01.jpg" width="100" height="100" alt="Customer Photo" />
-        </div>
-        <div class="customer-info">
-          <h4>首次來店日期</h4>
-          <p>2023-06-14</p>
-        </div>
-        <div class="customer-info">
-          <h4>備註</h4>
-          <p>問題特別多</p>
+    {% for customer in customers %}
+      <div class="col-md-4" style="border-style:solid;border-width:medium;">  <!-- 客戶管理 -->
+        <h3>客戶資料</h3>
+        <div class="customer">
+          <div class="customer-info">
+            <h4>客戶姓名</h4>
+            <p>{{ customer.name }}</p>
+          </div>
+          <div class="customer-info">
+            <h4>照片</h4>
+            <img src="{{ customer.photo.url }}" width="100" height="100" alt="Customer Photo" />
+          </div>
+          <div class="customer-info">
+            <h4>首次來店日期</h4>
+            <p>{{ customer.first_visit_date }}</p>
+          </div>
+          <div class="customer-info">
+            <h4>備註</h4>
+            <p>{{ customer.remarks }}</p>
+          </div>
         </div>
       </div>
-    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
     <div class="col-md-8" style="padding-left:70px;">
       <div class="customer-block" style="border:3px #000000 solid;margin-bottom: 30px;">
         <h3>關注</h3>

@@ -9,6 +9,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from .forms import ProfileForm, NotificationForm,RegistrationForm
+from django.shortcuts import render
+from .models import Customer
 
 # Create your views here.
 
@@ -130,3 +132,7 @@ def update_notifications(request):
     }
 
     return render(request, 'settings.html', context)
+    
+def customer_view(request):
+    customers = Customer.objects.all()
+    return render(request, 'customer.html', {'customers': customers})

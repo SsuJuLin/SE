@@ -2,8 +2,41 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm, NotificationForm
 from django.contrib import messages
+from django.http import JsonResponse
 
 # Create your views here.
+
+def sales_line_chart_data(request):
+    # Implement the logic to retrieve the sales data
+    sales_data = [1000, 1500, 2000, 1200, 1800, 2500, 3000]
+    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
+
+    data = {
+        'labels': labels,
+        'data': sales_data
+    }
+    
+    return JsonResponse(data)
+
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+def sales_chart_data(request):
+    # 實現銷售圖表數據的邏輯
+    data = {
+        "labels": ["Category 1", "Category 2", "Category 3"],
+        "data": [50, 30, 20]
+    }
+    return JsonResponse(data)
+
+def stock_chart_data(request):
+    # 實現產品庫存圖表數據的邏輯
+    data = {
+        "labels": ["Category 1", "Category 2", "Category 3"],
+        "data": [10, 20, 30]
+    }
+    return JsonResponse(data)
+
 @login_required
 def dashboard_view(request):
     # 在這裡處理從後端獲取數據等相關邏輯

@@ -18,6 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
 from dashboard.views import dashboard_view,settings_view,update_profile,update_notifications
+from dashboard import views
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
@@ -26,4 +29,7 @@ urlpatterns = [
     path('settings/', settings_view, name="settings"),
     path('update_profile/', update_profile, name="update_profile"),
     path('update_notifications/', update_notifications, name="update_notifications"),
+    path('sales-chart-data/', views.sales_chart_data, name='sales_chart_data'),
+    path('stock-chart-data/', views.stock_chart_data, name='stock_chart_data'),
+    path('sales-line-chart-data/', views.sales_line_chart_data, name='sales_line_chart_data'),
 ]

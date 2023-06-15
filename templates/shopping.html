@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}銷售管理系統{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <header
+      class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow"
+    >
+      <button
+        class="navbar-toggler d-md-none collapsed"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#sidebarMenu"
+        aria-controls="sidebarMenu"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#"
+        >銷售管理系統</a
+      >
+      <div class="navbar-nav">
+        <div class="nav-item text-nowrap">
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link px-3" href="{% url 'logout' %}">登出</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link px-3" href="{% url 'login' %}">登入</a>
+          </li>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav
+          id="sidebarMenu"
+          class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
+        >
+          <div class="position-sticky pt-3">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">
+                  <span data-feather="home"></span>
+                  儀表板
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="file"></span>
+                  訂單管理
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="shopping-cart"></span>
+                  產品管理
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="users"></span>
+                  客戶管理
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="bar-chart-2"></span>
+                  報表
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'settings' %}">
+                  <span data-feather="settings"></span>
+                  設定
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="row" style="margin-top: 20px;margin-left:-200px;width:800px;">
+    <div class="col-md-4" style="border-style:solid;border-width:medium;">
+      <h3>產品資料</h3>
+
+        <div class="customer-info">
+          <h4>產品照片</h4>
+       
+        </div>
+        
+        <div class="customer-info">
+          <h4>產品平價</h4>
+          <p>產品非常好</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8" style="margin-top: -160px; margin-left: 70px; width: 500px;" >
+      <div class="customer-block" style="border:3px #000000 solid;margin-bottom: 30px;">
+        <h3>產品名稱</h3>
+        <p>商品1</p>
+        <h3>數量</h3>
+        <p>1</p>
+        <h3>下訂單</h3>
+      </div>
+      
+    </div>
+  </div>
+  <div class="row" style="margin-top: 20px;margin-left:390px;width:800px;">
+    <div class="col-md-4" style="border-style:solid;border-width:medium;">
+      <h3>產品資料</h3>
+
+        <div class="customer-info">
+          <h4>產品照片</h4>
+       
+        </div>
+        
+        <div class="customer-info">
+          <h4>產品平價</h4>
+          <p>產品非常好</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8" style="margin-top: -160px; margin-left: 666px; width: 500px;" >
+      <div class="customer-block" style="border:3px #000000 solid;margin-bottom: 30px;">
+        <h3>產品名稱</h3>
+        <p>商品2</p>
+        <h3>數量</h3>
+        <p>1</p>
+        <h3>下訂單</h3>
+      </div>
+      
+    </div>
+  </div>
+  <div class="row" style="margin-top: 20px;margin-left:390px;width:800px;">
+    <div class="col-md-4" style="border-style:solid;border-width:medium;">
+      <h3>產品資料</h3>
+
+        <div class="customer-info">
+          <h4>產品照片</h4>
+       
+        </div>
+        
+        <div class="customer-info">
+          <h4>產品平價</h4>
+          <p>產品非常好</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8" style="margin-top: -160px; margin-left: 666px; width: 500px;" >
+      <div class="customer-block" style="border:3px #000000 solid;margin-bottom: 30px;">
+        <h3>產品名稱</h3>
+        <p>商品3</p>
+        <h3>數量</h3>
+        <p>1</p>
+        <h3>下訂單</h3>
+      </div>
+      
+    </div>
+  </div>
+</main>
+
+        </main>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace();
+    </script>
+  </body>
+</html>

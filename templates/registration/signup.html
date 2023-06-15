@@ -2,7 +2,6 @@
 
 {% block content %}
   <h2>註冊</h2>
-
 {% if messages %} 
 {% for message in messages %}
 <div
@@ -17,7 +16,7 @@
     aria-label="Close"
   ></button>
 </div>
-{% endfor %} 
+{% endfor %}
 {% endif %}
 
 <form method="POST" action="{% url 'signup' %}">
@@ -49,7 +48,7 @@
   </div>
 
   <div class="form-floating mb-3">
-    <input type="password" id="password1" name="password1" class="form-control" required>
+    <input type="password" id="password1" name="password1" class="form-control" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$" title="密碼必須包含至少一個數字、一個小寫字母、一個大寫字母，並且長度至少為8個字符" required>
     <label for="password1" class="form-label">密碼：</label>
   </div>
 
@@ -60,7 +59,7 @@
 
   <input type="submit" value="註冊" class="btn btn-primary">
 </form>
-
+{{ form.as_p }}
 <script>
   const password1Input = document.getElementById("password1");
   const password2Input = document.getElementById("password2");

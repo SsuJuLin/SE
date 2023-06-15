@@ -58,3 +58,11 @@ class Product(models.Model):
             'labels': chart_labels,
             'data': chart_data,
         }
+class Customer(models.Model):
+    name = models.CharField(max_length=100)
+    photo = models.ImageField(upload_to='customer_photos')
+    first_visit_date = models.DateField()
+    remarks = models.TextField()
+
+    def __str__(self):
+        return self.name

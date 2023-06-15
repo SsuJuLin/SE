@@ -1,106 +1,204 @@
 {% extends 'base.html' %}
-
 {% block title %}設定{% endblock %}
-
-{% block content %}
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endfor %}
+{% block content%} 
+{% if messages %} 
+{% for message in messages %}
+<div
+  class="alert alert-{{ message.tags }} alert-dismissible fade show"
+  role="alert"
+>
+  {{ message }}
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+{% endfor %} 
 {% endif %}
 
-  <div class="card shadow m-3 animate__animated animate__fadeInRight animate__faster">
-     <div class="card-header">
+<div
+  class="card shadow m-3 animate__animated animate__fadeInRight animate__faster"
+>
+  <div class="card-header">
     <h1 class="card-title fw-bold mb-0">基本資料</h1>
   </div>
   <div class="card-body">
-  <form action="{% url 'update_profile' %}" method="post" class="form">
-    {% csrf_token %}
-   <div class="form-floating mb-3">
-  <input type="email" id="email" name="email" value="{{ user.email }}" class="form-control">
-  <label for="email" class="form-label">Email：</label>
-</div>
+    <form action="{% url 'update_profile' %}" method="post" class="form">
+      {% csrf_token %}
+      <div class="form-floating mb-3">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="{{ user.email }}"
+          class="form-control"
+        />
+        <label for="email" class="form-label">Email：</label>
+      </div>
 
-<div class="form-floating mb-3">
-  <input type="text" id="username" name="username" value="{{ user.username }}" class="form-control" disabled>
-  <label for="username" class="form-label">使用者名稱：</label>
-</div>
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value="{{ user.username }}"
+          class="form-control"
+          disabled
+        />
+        <label for="username" class="form-label">使用者名稱：</label>
+      </div>
 
-<div class="row">
-  <div class="col-md-6">
-    <div class="form-floating mb-3">
-      <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" class="form-control">
-      <label for="first_name" class="form-label">姓氏：</label>
-    </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              id="first_name"
+              name="first_name"
+              value="{{ user.first_name }}"
+              class="form-control"
+            />
+            <label for="first_name" class="form-label">姓氏：</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              id="last_name"
+              name="last_name"
+              value="{{ user.last_name }}"
+              class="form-control"
+            />
+            <label for="last_name" class="form-label">名字：</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="date"
+          id="birthday"
+          name="birthday"
+          value="{{ user.birthday|date:'Y-m-d' }}"
+          class="form-control"
+        />
+        <label for="birthday" class="form-label">生日：</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          id="street"
+          name="street"
+          value="{{ user.street }}"
+          class="form-control"
+        />
+        <label for="street" class="form-label">街道：</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          id="house_number"
+          name="house_number"
+          value="{{ user.house_number }}"
+          class="form-control"
+        />
+        <label for="house_number" class="form-label">號碼：</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          id="town"
+          name="town"
+          value="{{ user.town }}"
+          class="form-control"
+        />
+        <label for="town" class="form-label">鄉鎮市區：</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          id="city"
+          name="city"
+          onchange="updateTowns()"
+          value="{{ user.city }}"
+          class="form-control"
+        />
+        <label for="city" class="form-label">縣市：</label>
+      </div>
+
+      <input type="submit" value="儲存" class="btn btn-primary" />
+    </form>
   </div>
-  <div class="col-md-6">
-    <div class="form-floating mb-3">
-      <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" class="form-control">
-      <label for="last_name" class="form-label">名字：</label>
-    </div>
-  </div>
 </div>
-
-<div class="form-floating mb-3">
-  <input type="date" id="birthday" name="birthday" value="{{ user.birthday|date:'Y-m-d' }}" class="form-control">
-  <label for="birthday" class="form-label">生日：</label>
-</div> 
-
-<div class="form-floating mb-3">
-  <input type="text" id="street" name="street" value="{{ user.street }}" class="form-control">
-  <label for="street" class="form-label">街道：</label>
-</div>
-
-<div class="form-floating mb-3">
-  <input type="text" id="house_number" name="house_number" value="{{ user.house_number }}" class="form-control">
-  <label for="house_number" class="form-label">號碼：</label>
-</div>
-
-<div class="form-floating mb-3">
-  <input type="text" id="town" name="town" value="{{ user.town }}" class="form-control">
-  <label for="town" class="form-label">鄉鎮市區：</label>
-</div>
-
-<div class="form-floating mb-3">
-  <input type="text" id="city" name="city" onchange="updateTowns()" value="{{ user.city }}" class="form-control">
-  <label for="city" class="form-label">縣市：</label>
-</div>
-
-<input type="submit" value="儲存" class="btn btn-primary">
-  </form>
-</div>
-
-</div>
-    <div class="card shadow m-3 animate__animated animate__fadeInRight animate__fast">
-      <div class="card-header">
+<div
+  class="card shadow m-3 animate__animated animate__fadeInRight animate__fast"
+>
+  <div class="card-header">
     <h1 class="card-title fw-bold mb-0">通知或提醒</h1>
   </div>
   <div class="card-body">
-  <form action="{% url 'update_notifications' %}" method="post" class="form">
-    {% csrf_token %}
-    <div class="form-switch mb-3">
-      <input type="checkbox" id="news_notification" name="news_notification" {% if user.news_notification %}checked{% endif %} class="form-check-input">
-      <label for="news_notification" class="form-label">最新消息：</label>
-    </div>
+    <form action="{% url 'update_notifications' %}" method="post" class="form">
+      {% csrf_token %}
+      <div class="form-switch mb-3">
+        <input
+          type="checkbox"
+          id="news_notification"
+          name="news_notification"
+          {%
+          if
+          user.news_notification
+          %}checked{%
+          endif
+          %}
+          class="form-check-input"
+        />
+        <label for="news_notification" class="form-label">最新消息：</label>
+      </div>
 
-<div class="form-switch mb-3">
-  <input type="checkbox" id="activity_notification" name="activity_notification" {% if user.activity_notification %}checked{% endif %} class="form-check-input">
-  <label for="activity_notification" class="form-label">帳號活動：</label>
-</div>
+      <div class="form-switch mb-3">
+        <input
+          type="checkbox"
+          id="activity_notification"
+          name="activity_notification"
+          {%
+          if
+          user.activity_notification
+          %}checked{%
+          endif
+          %}
+          class="form-check-input"
+        />
+        <label for="activity_notification" class="form-label">帳號活動：</label>
+      </div>
 
-<div class="form-switch mb-3">
-  <input type="checkbox" id="promotion_notification" name="promotion_notification" {% if user.promotion_notification %}checked{% endif %} class="form-check-input">
-  <label for="promotion_notification" class="form-label">優惠訊息：</label>
-</div>
+      <div class="form-switch mb-3">
+        <input
+          type="checkbox"
+          id="promotion_notification"
+          name="promotion_notification"
+          {%
+          if
+          user.promotion_notification
+          %}checked{%
+          endif
+          %}
+          class="form-check-input"
+        />
+        <label for="promotion_notification" class="form-label"
+          >優惠訊息：</label
+        >
+      </div>
 
-<input type="submit" value="儲存" class="btn btn-primary">
-
-  </form>
+      <input type="submit" value="儲存" class="btn btn-primary" />
+    </form>
   </div>
-
 </div>
 
 {% endblock %}

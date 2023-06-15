@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 # Create your models here.
 
 class User(AbstractUser):
@@ -15,3 +16,29 @@ class User(AbstractUser):
     
     def __str__(self):
         return self.username
+
+
+class Product(models.Model):
+    # ...
+
+    @classmethod
+    def get_sales_chart_data(cls):
+        # 獲取產品收入數據並處理成適合圖表的格式
+        # ...
+
+        return {
+            'labels': chart_labels,
+            'data': chart_data,
+        }
+
+    @classmethod
+    def get_stock_chart_data(cls):
+        # 獲取產品庫存數據並處理成適合圖表的格式
+        # ...
+
+        return {
+            'labels': chart_labels,
+            'data': chart_data,
+        }
+
+    # 添加其他圖表所需的模型方法或管理器方法

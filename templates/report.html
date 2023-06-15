@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}報表 - 銷售管理系統{% endblock %}
+
+{% block content %}
+<h1>報表</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>銷售時間</th>
+            <th>訂單編號</th>
+            <th>客戶姓名</th>
+            <th>銷售數量</th>
+            <th>金額</th>
+            <th>付款方式</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sale in sales %}
+        <tr>
+            <td>{{ sale.sales_time }}</td>
+            <td>{{ sale.order_number }}</td>
+            <td>{{ sale.customer_name }}</td>
+            <td>{{ sale.quantity }}</td>
+            <td>{{ sale.amount }}</td>
+            <td>{{ sale.payment_method }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

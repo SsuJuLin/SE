@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from .forms import ProfileForm, NotificationForm
+from django.contrib import messages
+from django.http import JsonResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
@@ -9,6 +12,38 @@ from .forms import ProfileForm, NotificationForm,RegistrationForm
 
 
 # Create your views here.
+
+def sales_line_chart_data(request):
+    # Implement the logic to retrieve the sales data
+    sales_data = [1000, 1500, 2000, 1200, 1800, 2500, 3000]
+    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
+
+    data = {
+        'labels': labels,
+        'data': sales_data
+    }
+    
+    return JsonResponse(data)
+
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+def sales_chart_data(request):
+    # 實現銷售圖表數據的邏輯
+    data = {
+        "labels": ["Category 1", "Category 2", "Category 3"],
+        "data": [50, 30, 20]
+    }
+    return JsonResponse(data)
+
+def stock_chart_data(request):
+    # 實現產品庫存圖表數據的邏輯
+    data = {
+        "labels": ["Category 1", "Category 2", "Category 3"],
+        "data": [10, 20, 30]
+    }
+    return JsonResponse(data)
+
 class SignUp_View(generic.CreateView):
     form_class = RegistrationForm
     success_url = reverse_lazy("login")

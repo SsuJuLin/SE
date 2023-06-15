@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row" style="margin-top: 20px;margin-left:-200px;width:800px;">
+    <div class="col-md-4" style="border-style:solid;border-width:medium;">  <!-- 客戶管理 -->
+      <h3>客戶資料</h3>
+      <div class="customer">
+        <div class="customer-info">
+          <h4>客戶姓名</h4>
+          <p>陳OO</p>
+        </div>
+        <div class="customer-info">
+          <h4>照片</h4>
+          <img src="image/01.jpg" width="100" height="100" alt="Customer Photo" />
+        </div>
+        <div class="customer-info">
+          <h4>首次來店日期</h4>
+          <p>2023-06-14</p>
+        </div>
+        <div class="customer-info">
+          <h4>備註</h4>
+          <p>問題特別多</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8" style="padding-left:70px;">
+      <div class="customer-block" style="border:3px #000000 solid;margin-bottom: 30px;">
+        <h3>關注</h3>
+		<div style="border:5px #46A3FF solid;">
+           <!-- 在這裡放置關注階段的客戶的姓名 -->
+		   吳OO
+        </div>
+      </div>
+      <div class="customer-block"; style="border:3px #000000 solid;margin-bottom: 30px;">
+        <h3>興趣</h3>
+		<div style="border:5px #46A3FF solid;">
+        <!-- 在這裡放置興趣階段的客戶的姓名 -->
+		林OO
+		</div>
+      </div>
+      <div class="customer-block"; style="border:3px #000000 solid;margin-bottom: 30px;">
+        <h3>購買</h3>
+		<div style="border:5px #46A3FF solid;">
+        <!-- 在這裡放置購買階段的客戶的姓名 -->
+		無
+		</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+        </main>
+      </div>
+    </div>
+{% endblock %}

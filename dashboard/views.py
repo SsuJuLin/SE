@@ -15,8 +15,8 @@ from .forms import ProfileForm, NotificationForm,RegistrationForm
 
 def sales_line_chart_data(request):
     # Implement the logic to retrieve the sales data
-    sales_data = [1000, 1500, 2000, 1200, 1800, 2500, 3000]
-    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
+    sales_data = [1000, 1500, 2000, 1200, 1800, 2500, 3000, 4200, 2000, 1500, 2500, 3000]
+    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Oct', 'Nov', 'Dec']
 
     data = {
         'labels': labels,

@@ -1,8 +1,14 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm, NotificationForm
 from django.contrib import messages
 from django.http import JsonResponse
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views import generic
+from .forms import ProfileForm, NotificationForm,RegistrationForm
 
 # Create your views here.
 
@@ -36,6 +42,29 @@ def stock_chart_data(request):
         "data": [10, 20, 30]
     }
     return JsonResponse(data)
+
+def signup_view(request):
+    User = get_user_model()
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            # 檢查使用者名稱是否已存在
+            username = form.cleaned_data.get('username')
+            User = get_user_model()
+            if User.objects.filter(username=username).exists():
+                messages.error(request, '該使用者名稱已被使用。請選擇其他使用者名稱。')
+            else:
+                form.save()
+                messages.success(request, '註冊成功！')
+                print(form.errors)
+                return redirect('home')
+        else:
+            messages.error(request, '註冊失敗。請檢查輸入內容。')
+            print(form.errors)
+    else:
+        form = RegistrationForm()
+        print(form.errors)
+    return render(request, 'registration/signup.html', {'form': form})
 
 @login_required
 def dashboard_view(request):
@@ -72,7 +101,6 @@ def update_profile(request):
             profile_form.save()
             messages.success(request, "成功更新個人資料。")
         else:
-            print(profile_form.errors)
             messages.error(request, "無法更新個人資料。")
     else:
         profile_form = ProfileForm(instance=user)

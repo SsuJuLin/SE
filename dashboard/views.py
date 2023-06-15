@@ -19,46 +19,11 @@ def dashboard_view(request):
 def settings_view(request):
     user = request.user
 
-    if request.method == 'POST':
-        profile_form = ProfileForm(request.POST, instance=user)
-        notification_form = NotificationForm(request.POST, instance=user)
-
-        if profile_form.is_valid() and notification_form.is_valid():
-            profile_form.save()
-            notification_form.save()
-            return redirect('settings')  # 保存後重新導向到設定頁面
-
-    else:
-        profile_form = ProfileForm(instance=user)
-        notification_form = NotificationForm(instance=user)
+    profile_form = ProfileForm(instance=user)
+    notification_form = NotificationForm(instance=user)
 
     context = {
         'profile_form': profile_form,
-        'notification_form': notification_form,
-    }
-
-    return render(request, 'settings.html', context)
-
-@login_required
-def update_notification(request):
-    user = request.user
-
-    if request.method == 'POST':
-        notification_form = NotificationForm(request.POST, instance=user)
-        if notification_form.is_valid():
-            updated_user = notification_form.save(commit=False)
-            changed_fields = notification_form.changed_data
-            for field in changed_fields:
-                setattr(updated_user, field, notification_form.cleaned_data[field])
-            updated_user.save()
-            messages.success(request, "成功更新資料庫。")
-            return redirect('settings')  # 重定向到設定頁面
-        else:
-            messages.error(request, "無法更新資料庫。")
-    else:
-        notification_form = NotificationForm(instance=user)
-
-    context = {
         'notification_form': notification_form,
     }
 
@@ -71,21 +36,36 @@ def update_profile(request):
     if request.method == 'POST':
         profile_form = ProfileForm(request.POST, instance=user)
         if profile_form.is_valid():
-            print(profile_form.cleaned_data)
-            updated_user = profile_form.save(commit=False)
-            changed_fields = profile_form.changed_data
-            for field in changed_fields:
-                setattr(updated_user, field, profile_form.cleaned_data[field])
-            updated_user.save()
-            messages.success(request, "成功更新資料庫。")
-            return redirect('settings')  # 重定向到設定頁面
+            profile_form.save()
+            messages.success(request, "成功更新個人資料。")
         else:
-            messages.error(request, "無法更新資料庫。")
+            print(profile_form.errors)
+            messages.error(request, "無法更新個人資料。")
     else:
         profile_form = ProfileForm(instance=user)
 
     context = {
         'profile_form': profile_form,
+    }
+
+    return render(request, 'settings.html', context)
+
+@login_required
+def update_notifications(request):
+    user = request.user
+
+    if request.method == 'POST':
+        notification_form = NotificationForm(request.POST, instance=user)
+        if notification_form.is_valid():
+            notification_form.save()
+            messages.success(request, "成功更新通知設定。")
+        else:
+            messages.error(request, "無法更新通知設定。")
+    else:
+        notification_form = NotificationForm(instance=user)
+
+    context = {
+        'notification_form': notification_form,
     }
 
     return render(request, 'settings.html', context)

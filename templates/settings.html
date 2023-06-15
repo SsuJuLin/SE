@@ -38,7 +38,7 @@
 <div class="form-floating mb-3">
   <input type="date" id="birthday" name="birthday" value="{{ user.birthday|date:'Y-m-d' }}" class="form-control">
   <label for="birthday" class="form-label">生日：</label>
-</div>
+</div> 
 
 <div class="form-floating mb-3">
   <input type="text" id="street" name="street" value="{{ user.street }}" class="form-control">
@@ -51,22 +51,12 @@
 </div>
 
 <div class="form-floating mb-3">
-  <select id="town" name="town" class="form-select">
-    <option value="">請選擇鄉鎮市區</option>
-    {% for town in towns %}
-      <option value="{{ town }}" {% if town == user.town %}selected{% endif %}>{{ town }}</option>
-    {% endfor %}
-  </select>
+  <input type="text" id="town" name="town" value="{{ user.town }}" class="form-control">
   <label for="town" class="form-label">鄉鎮市區：</label>
 </div>
 
 <div class="form-floating mb-3">
-  <select id="city" name="city" onchange="updateTowns()" class="form-select">
-    <option value="">請選擇縣市</option>
-    {% for city in cities %}
-      <option value="{{ city }}" {% if city == user.city %}selected{% endif %}>{{ city }}</option>
-    {% endfor %}
-  </select>
+  <input type="text" id="city" name="city" onchange="updateTowns()" value="{{ user.city }}" class="form-control">
   <label for="city" class="form-label">縣市：</label>
 </div>
 
@@ -75,7 +65,7 @@
 
 
   <h1>通知或提醒</h1>
-  <form action="{% url 'update_notification' %}" method="post" class="form">
+  <form action="{% url 'update_notifications' %}" method="post" class="form">
     {% csrf_token %}
     <div class="form-switch mb-3">
       <input type="checkbox" id="news_notification" name="news_notification" {% if user.news_notification %}checked{% endif %} class="form-check-input">
@@ -96,28 +86,5 @@
 <input type="submit" value="儲存" class="btn btn-primary">
 
   </form>
-
-  <script>
-    function updateTowns() {
-      var citySelect = document.getElementById("city");
-      var townSelect = document.getElementById("town");
-      var city = citySelect.options[citySelect.selectedIndex].value;
-      var towns = JSON.parse("{{ town_options_json|escapejs }}");
-
-      // Remove current town options
-      while (townSelect.options.length > 0) {
-        townSelect.remove(0);
-      }
-
-      // Add town options based on selected city
-      for (var i = 0; i < towns[city].length; i++) {
-        var option = document.createElement("option");
-        option.value = towns[city][i];
-        option.text = towns[city][i];
-        townSelect.add(option);
-      }
-    }
-  </script>
-
 
 {% endblock %}

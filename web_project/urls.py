@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
-from dashboard.views import dashboard_view,settings_view,update_profile,update_notification
+from dashboard.views import dashboard_view,settings_view,update_profile,update_notifications
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
@@ -25,5 +25,5 @@ urlpatterns = [
     path('dashboard/', dashboard_view, name="dashboard"),
     path('settings/', settings_view, name="settings"),
     path('update_profile/', update_profile, name="update_profile"),
-    path('update_notification/', update_notification, name="update_notification"),
+    path('update_notifications/', update_notifications, name="update_notifications"),
 ]

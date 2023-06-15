@@ -21,6 +21,8 @@ from django.views.generic.base import TemplateView
 from dashboard.views import dashboard_view, signup_view,settings_view, update_profile, update_notifications
 from dashboard import views
 from django.views.generic.shopping import TemplateView
+from django.urls import path
+from . import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -35,4 +37,5 @@ urlpatterns = [
     path('stock-chart-data/', views.stock_chart_data, name='stock_chart_data'),
     path('sales-line-chart-data/', views.sales_line_chart_data, name='sales_line_chart_data'),
     path('shopping/', views.shopping_page, name='shopping'),
+    path('customer/', views.customer_view, name='customer'),
 ]

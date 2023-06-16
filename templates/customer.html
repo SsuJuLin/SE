@@ -1,4 +1,8 @@
+<!DOCTYPE html>
 {% extends 'base.html' %}
+
+{% load static %}
+{% load staticfiles %}
 
 {% block content %}
   <div class="row" style="margin-top: 20px;margin-left:-200px;width:800px;">
@@ -26,34 +30,42 @@
       </div>
     {% endfor %}
   </div>
-{% endblock %}
-    <div class="col-md-8" style="padding-left:70px;">
-      <div class="customer-block" style="border:3px #000000 solid;margin-bottom: 30px;">
-        <h3>關注</h3>
-		<div style="border:5px #46A3FF solid;">
-           <!-- 在這裡放置關注階段的客戶的姓名 -->
-		   吳OO
-        </div>
+
+  <div class="col-md-8" style="padding-left:70px;">
+    <div class="customer-block" style="border:3px #000000 solid;margin-bottom: 30px;">
+      <h3>關注</h3>
+      <div style="border:5px #46A3FF solid;">
+        <!-- 在這裡放置關注階段的客戶的姓名 -->
+        {% for customer in customers %}
+          {% if customer.stage == '關注' %}
+            {{ customer.name }}
+          {% endif %}
+        {% endfor %}
       </div>
-      <div class="customer-block"; style="border:3px #000000 solid;margin-bottom: 30px;">
-        <h3>興趣</h3>
-		<div style="border:5px #46A3FF solid;">
+    </div>
+
+    <div class="customer-block" style="border:3px #000000 solid;margin-bottom: 30px;">
+      <h3>興趣</h3>
+      <div style="border:5px #46A3FF solid;">
         <!-- 在這裡放置興趣階段的客戶的姓名 -->
-		林OO
-		</div>
+        {% for customer in customers %}
+          {% if customer.stage == '興趣' %}
+            {{ customer.name }}
+          {% endif %}
+        {% endfor %}
       </div>
-      <div class="customer-block"; style="border:3px #000000 solid;margin-bottom: 30px;">
-        <h3>購買</h3>
-		<div style="border:5px #46A3FF solid;">
+    </div>
+
+    <div class="customer-block" style="border:3px #000000 solid;margin-bottom: 30px;">
+      <h3>購買</h3>
+      <div style="border:5px #46A3FF solid;">
         <!-- 在這裡放置購買階段的客戶的姓名 -->
-		無
-		</div>
+        {% for customer in customers %}
+          {% if customer.stage == '購買' %}
+            {{ customer.name }}
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </div>
-</main>
-
-        </main>
-      </div>
-    </div>
 {% endblock %}

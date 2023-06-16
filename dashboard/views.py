@@ -1,18 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product,Order
-from django.shortcuts import render, redirect
+from .models import Product,Order,Customer
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from .forms import ProfileForm, NotificationForm
-from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from .forms import ProfileForm, NotificationForm, RegistrationForm, OrderForm
-from django.shortcuts import render
-from .models import Customer
 # Create your views here.
 
 def sales_line_chart_data(request):
@@ -143,7 +138,7 @@ def update_profile(request):
     return render(request, 'settings.html', context)
 
 @login_required
-def update_notifications(request):
+def update_notification(request):
     user = request.user
 
     if request.method == 'POST':

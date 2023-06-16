@@ -40,6 +40,5 @@ urlpatterns = [
     path('sales-chart-data/', sales_chart_data, name='sales_chart_data'),
     path('stock-chart-data/', stock_chart_data, name='stock_chart_data'),
     path('sales-line-chart-data/', sales_line_chart_data, name='sales_line_chart_data'),
-	path('shopping/', views.shopping_page, name='shopping'),
     path('customer/', views.customer_view, name='customer'),
 ]

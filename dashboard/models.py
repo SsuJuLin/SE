@@ -5,14 +5,21 @@ from django.db.models import Sum
 
 # Create your models here.
 class User(AbstractUser):
+    ROLES = (
+        ('customer', '客戶'),
+        ('employee', '員工'),
+        ('manager', '主管'),
+    )
+
+    role = models.CharField(max_length=20, choices=ROLES, default="customer")
     birthday = models.DateField(null=True)
     street = models.CharField(null=True, max_length=100)
     house_number = models.CharField(null=True, max_length=10)
     town = models.CharField(null=True, max_length=100)
     city = models.CharField(null=True, max_length=100)
-    news_notification = models.BooleanField(null=True, default=False)
-    activity_notification = models.BooleanField(null=True, default=False)
-    promotion_notification = models.BooleanField(null=True, default=False)
+    news_notification = models.BooleanField(default=False)
+    activity_notification = models.BooleanField(default=False)
+    promotion_notification = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

@@ -64,7 +64,6 @@ def signup_view(request):
         print(form.errors)
     return render(request, 'registration/signup.html', {'form': form})
 
-
 @login_required
 def order_list(request):
     orders = Order.objects.all()
@@ -154,8 +153,7 @@ def update_notification(request):
     context = {
         'notification_form': notification_form,
     }
-
-    
+ 
 def customer_view(request):
     customers = Customer.objects.all()
     return render(request, 'customer.html', {'customers': customers})

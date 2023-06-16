@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from django.views.generic.base import TemplateView
-from dashboard.views import dashboard_view, signup_view,settings_view, update_profile, update_notifications
+from dashboard.views import dashboard_view, signup_view,settings_view, update_profile, update_notification
 from dashboard import views
 
 urlpatterns = [
@@ -29,7 +29,7 @@ urlpatterns = [
     path('dashboard/', dashboard_view, name="dashboard"),
     path('settings/', settings_view, name="settings"),
     path('update_profile/', update_profile, name="update_profile"),
-    path('update_notifications/', update_notifications, name="update_notifications"),
+    path('update_notification/', update_notification, name="update_notification"),
     path('sales-chart-data/', views.sales_chart_data, name='sales_chart_data'),
     path('stock-chart-data/', views.stock_chart_data, name='stock_chart_data'),
     path('sales-line-chart-data/', views.sales_line_chart_data, name='sales_line_chart_data'),

@@ -10,9 +10,9 @@ class User(AbstractUser):
     house_number = models.CharField(null=True, max_length=10)
     town = models.CharField(null=True, max_length=100)
     city = models.CharField(null=True, max_length=100)
-    news_notification = models.BooleanField(null=True, default=False)
-    activity_notification = models.BooleanField(null=True, default=False)
-    promotion_notification = models.BooleanField(null=True, default=False)
+    news_notification = models.BooleanField(default=False)
+    activity_notification = models.BooleanField(default=False)
+    promotion_notification = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

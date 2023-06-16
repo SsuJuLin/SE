@@ -1,13 +1,9 @@
 {% extends 'base.html' %}
-
 {% block content %}
-  <h2>註冊</h2>
 {% if messages %} 
 {% for message in messages %}
-<div
-  class="alert alert-{{ message.tags }} alert-dismissible fade show"
-  role="alert"
->
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show"
+  role="alert">
   {{ message }}
   <button
     type="button"
@@ -17,8 +13,24 @@
   ></button>
 </div>
 {% endfor %}
-{% endif %}
 
+{% endif %}
+  {% if form.errors %}
+    <div class="alert alert-danger m-3">
+      {% for field in form %}
+        {% if field.errors %}
+          {% for error in field.errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+<div class="row justify-content-center align-items-center mt-5">
+  <div class="col-md-4 ">
+    <div class="card shadow">
+      <div class="card-body">
+        <h2 class="card-title text-center">註冊</h2>
 <form method="POST" action="{% url 'signup' %}">
   {% csrf_token %}
 
@@ -59,6 +71,10 @@
 
   <input type="submit" value="註冊" class="btn btn-primary">
 </form>
+</div>
+    </div>
+  </div>
+</div>
 
 <script>
   const password1Input = document.getElementById("password1");

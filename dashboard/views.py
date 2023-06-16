@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from .forms import ProfileForm, NotificationForm
 from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.forms import UserCreationForm
@@ -95,14 +94,11 @@ def signup_view(request):
             else:
                 form.save()
                 messages.success(request, '註冊成功！')
-                print(form.errors)
                 return redirect('home')
         else:
             messages.error(request, '註冊失敗。請檢查輸入內容。')
-            print(form.errors)
     else:
         form = RegistrationForm()
-        print(form.errors)
     return render(request, 'registration/signup.html', {'form': form})
 
 @login_required
@@ -151,7 +147,7 @@ def update_profile(request):
     return render(request, 'settings.html', context)
 
 @login_required
-def update_notifications(request):
+def update_notification(request):
     user = request.user
 
     if request.method == 'POST':

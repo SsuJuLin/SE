@@ -144,22 +144,19 @@
     <h1 class="card-title fw-bold mb-0">通知或提醒</h1>
   </div>
   <div class="card-body">
-    <form action="{% url 'update_notifications' %}" method="post" class="form">
+    <form action="{% url 'update_notification' %}" method="post" class="form">
       {% csrf_token %}
       <div class="form-switch mb-3">
         <input
           type="checkbox"
           id="news_notification"
           name="news_notification"
-          {%
-          if
-          user.news_notification
-          %}checked{%
-          endif
-          %}
+          {% if user.news_notification %}
+          checked
+          {% endif %}
           class="form-check-input"
         />
-        <label for="news_notification" class="form-label">最新消息：</label>
+        <label for="news_notification" class="form-label">最新消息</label>
       </div>
 
       <div class="form-switch mb-3">
@@ -167,15 +164,12 @@
           type="checkbox"
           id="activity_notification"
           name="activity_notification"
-          {%
-          if
-          user.activity_notification
-          %}checked{%
-          endif
-          %}
+          {% if user.activity_notification %}
+          checked
+          {% endif %}
           class="form-check-input"
         />
-        <label for="activity_notification" class="form-label">帳號活動：</label>
+        <label for="activity_notification" class="form-label">帳號活動</label>
       </div>
 
       <div class="form-switch mb-3">
@@ -183,16 +177,13 @@
           type="checkbox"
           id="promotion_notification"
           name="promotion_notification"
-          {%
-          if
-          user.promotion_notification
-          %}checked{%
-          endif
-          %}
+          {% if user.promotion_notification %}
+          checked
+          {% endif %}
           class="form-check-input"
         />
         <label for="promotion_notification" class="form-label"
-          >優惠訊息：</label
+          >優惠訊息</label
         >
       </div>
 

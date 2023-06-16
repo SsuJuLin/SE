@@ -27,6 +27,45 @@ def sales_line_chart_data(request):
 def dashboard(request):
     return render(request, 'dashboard.html')
 
+
+def product_sales_percentage(request):
+    order = Order.objects.first()  # 假設你要使用第一個訂單的數據
+    product_sales_percentage = order.get_product_sales_percentage()
+
+    return render(request, 'dashboard.html', {'product_sales_percentage': product_sales_percentage})
+
+
+def sales_percentage_pie_chart(request):
+    orders = Order.objects.all()
+    sales_data = []
+    labels = []
+
+    for order in orders:
+        data = order.get_product_sales_percentage()
+        sales_data.extend(data['data'])
+        labels.extend(data['labels'])
+
+    chart_data = {
+        'labels': labels,
+        'data': sales_data,
+    }
+
+    return render(request, 'sales_percentage_pie_chart.html', {'chart_data': chart_data})
+
+
+def sales_trend_line_chart(request):
+    orders = Order.objects.all()
+    chart_data = {
+        'labels': [],
+        'data': [],
+    }
+
+    for order in orders:
+        data = order.get_sales_trend_data()
+        chart_data['labels'].extend(data['labels'])
+        chart_data['data'].extend(data['data'])
+
+    return render(request, 'sales_trend_line_chart.html', {'chart_data': chart_data})
 def sales_chart_data(request):
     # 實現銷售圖表數據的邏輯
     data = {

@@ -73,6 +73,17 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_product_sales_percentage(self):
+        product_sales = self.order_items_set.values('product__name').annotate(
+            sales=Count('product')).order_by('product__name')
+        total_sales = sum([sale['sales'] for sale in product_sales])
+
+        data = {
+            'labels': [sale['product__name'] for sale in product_sales],
+            'data': [sale['sales'] / total_sales * 100 for sale in product_sales],
+        }
+
+        return data
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)

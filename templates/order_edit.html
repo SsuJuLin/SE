@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>編輯訂單</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.customer_name.label_tag }}
+      {{ form.customer_name }}
+    </div>
+    <div class="mb-3">
+      {{ form.email.label_tag }}
+      {{ form.email }}
+    </div>
+    <div class="mb-3">
+      {{ form.shipping_address.label_tag }}
+      {{ form.shipping_address }}
+    </div>
+    <div class="mb-3">
+      {{ form.total_amount.label_tag }}
+      {{ form.total_amount }}
+    </div>
+    <button type="submit" class="btn btn-primary">儲存</button>
+    {% comment %} <a href="{% url 'order_detail' order.id %}" class="btn btn-secondary">取消</a> {% endcomment %}
+  </form>
+{% endblock %}

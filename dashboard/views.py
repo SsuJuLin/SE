@@ -10,36 +10,54 @@ from django.views import generic
 from .forms import ProfileForm, NotificationForm, RegistrationForm, OrderForm
 # Create your views here.
 
-def sales_line_chart_data(request):
-    # Implement the logic to retrieve the sales data
-    sales_data = [1000, 1500, 2000, 1200, 1800, 2500, 3000, 4200, 2000, 1500, 2500, 3000]
-    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Oct', 'Nov', 'Dec']
-
-    data = {
-        'labels': labels,
-        'data': sales_data
-    }
-    
-    return JsonResponse(data)
-
 def dashboard(request):
     return render(request, 'dashboard.html')
 
-def sales_chart_data(request):
-    # 實現銷售圖表數據的邏輯
-    data = {
-        "labels": ["Category 1", "Category 2", "Category 3"],
-        "data": [50, 30, 20]
-    }
-    return JsonResponse(data)
-
 def stock_chart_data(request):
     # 實現產品庫存圖表數據的邏輯
+    # 從 Product 模型中獲取庫存數據
+    stock_data = Product.get_stock_chart_data()
+
+    # 組織庫存數據為 labels 和 data
+    labels = stock_data['labels']
+    data = stock_data['data']
+
+    # 構建回傳的 data 字典
     data = {
         "labels": ["Category 1", "Category 2", "Category 3"],
-        "data": [10, 20, 30]
+        "labels": labels,
+        "data": data
     }
+
     return JsonResponse(data)
+
+def sales_line_chart_data(request):
+    # Retrieve the sales data from the database
+    products = Product.objects.all()
+    sales_data = []
+    labels = []
+
+    # Calculate the sales data for each month
+    for i in range(1, 13):
+        month_sales = products.filter(created_at__month=i).aggregate(
+            total_sales=models.Sum(models.F('price') * models.F('quantity')))['total_sales']
+        sales_data.append(month_sales if month_sales else 0)
+        labels.append(datetime(2000, i, 1).strftime('%b'))
+
+def sales_chart_data(request):
+    # 實現銷售圖表數據的邏輯
+    # 從 Product 模型中獲取銷售數據
+    sales_data = Product.get_sales_chart_data()
+
+    # 組織銷售數據為 labels 和 data
+    labels = sales_data['labels']
+    data = [sale * 100 for sale in sales_data['data']]  # 將銷售數據轉換為百分比
+
+    # 構建回傳的 data 字典
+    data = {
+        "labels": labels,
+        "data": data
+    }
 
 def signup_view(request):
     User = get_user_model()

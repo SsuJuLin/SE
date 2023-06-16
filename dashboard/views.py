@@ -91,6 +91,7 @@ def order_detail(request, id):
     order = get_object_or_404(Order, id=id)
     return render(request, 'order_detail.html', {'order': order})
 
+
 def order_edit(request, id):
     order = get_object_or_404(Order, id=id)
     if request.method == 'POST':
@@ -100,7 +101,7 @@ def order_edit(request, id):
             return redirect('order_detail', id=order.id)
     else:
         form = OrderForm(instance=order)
-    return render(request, 'order_edit.html', {'form': form})
+    return render(request, 'order_edit.html', {'form': form, 'order': order})
 
 def order_delete(request, id):
     order = get_object_or_404(Order, id=id)

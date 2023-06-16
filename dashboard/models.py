@@ -17,9 +17,13 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
-
 class Product(models.Model):
-    # ...
+    name = models.CharField(max_length=100, default='default name')
+    description = models.TextField(default='default description')
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    quantity = models.PositiveIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     @classmethod
     def get_sales_chart_data(cls):
@@ -58,3 +62,25 @@ class Product(models.Model):
             'labels': chart_labels,
             'data': chart_data,
         }
+
+
+class Order(models.Model):
+    customer_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    shipping_address = models.CharField(max_length=200)
+    total_amount = models.DecimalField(max_digits=8, decimal_places=2)
+    order_items = models.ManyToManyField(Product, through='OrderItem')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+def __str__(self):
+    return f"{self.order} - {self.product}"

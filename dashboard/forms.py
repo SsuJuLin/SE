@@ -1,6 +1,7 @@
+from .models import Order
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from .models import User, Order
 
 class RegistrationForm(UserCreationForm):
     password1 = forms.CharField(label='密碼', widget=forms.PasswordInput)
@@ -31,4 +32,12 @@ class ProfileForm(forms.ModelForm):
 class NotificationForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['news_notification', 'activity_notification', 'promotion_notification']
+        fields = ['news_notification',
+                  'activity_notification', 'promotion_notification']
+        from django import forms
+
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ('customer_name', 'email', 'shipping_address', 'total_amount')

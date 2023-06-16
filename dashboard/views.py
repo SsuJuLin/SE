@@ -1,93 +1,41 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product,Order
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from .forms import ProfileForm, NotificationForm
 from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from .forms import ProfileForm, NotificationForm, RegistrationForm, OrderForm
-from datetime import datetime
+from django.shortcuts import render
+from .models import Customer
 # Create your views here.
 
 def sales_line_chart_data(request):
-    # Retrieve the sales data from the database
-    products = Product.objects.all()
-    sales_data = []
-    labels = []
-
-    # Calculate the sales data for each month
-    for i in range(1, 13):
-        month_sales = products.filter(created_at__month=i).aggregate(total_sales=models.Sum(models.F('price') * models.F('quantity')))['total_sales']
-        sales_data.append(month_sales if month_sales else 0)
-        labels.append(datetime(2000, i, 1).strftime('%b'))
+    # Implement the logic to retrieve the sales data
+    sales_data = [1000, 1500, 2000, 1200, 1800, 2500, 3000, 4200, 2000, 1500, 2500, 3000]
+    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Oct', 'Nov', 'Dec']
 
     data = {
         'labels': labels,
         'data': sales_data
     }
-
+    
     return JsonResponse(data)
 
 def dashboard(request):
     return render(request, 'dashboard.html')
 
-
-def product_sales_percentage(request):
-    order = Order.objects.first()  # 假設你要使用第一個訂單的數據
-    product_sales_percentage = order.get_product_sales_percentage()
-
-    return render(request, 'dashboard.html', {'product_sales_percentage': product_sales_percentage})
-
-
-def sales_percentage_pie_chart(request):
-    orders = Order.objects.all()
-    sales_data = []
-    labels = []
-
-    for order in orders:
-        data = order.get_product_sales_percentage()
-        sales_data.extend(data['data'])
-        labels.extend(data['labels'])
-
-    chart_data = {
-        'labels': labels,
-        'data': sales_data,
-    }
-
-    return render(request, 'sales_percentage_pie_chart.html', {'chart_data': chart_data})
-
-
-def sales_trend_line_chart(request):
-    orders = Order.objects.all()
-    chart_data = {
-        'labels': [],
-        'data': [],
-    }
-
-    for order in orders:
-        data = order.get_sales_trend_data()
-        chart_data['labels'].extend(data['labels'])
-        chart_data['data'].extend(data['data'])
-
-    return render(request, 'sales_trend_line_chart.html', {'chart_data': chart_data})
-
 def sales_chart_data(request):
-    # 從 Product 模型中獲取銷售數據
-    sales_data = Product.get_sales_chart_data()
-
-    # 組織銷售數據為 labels 和 data
-    labels = sales_data['labels']
-    data = [sale * 100 for sale in sales_data['data']]  # 將銷售數據轉換為百分比
-
-    # 構建回傳的 data 字典
+    # 實現銷售圖表數據的邏輯
     data = {
-        "labels": labels,
-        "data": data
+        "labels": ["Category 1", "Category 2", "Category 3"],
+        "data": [50, 30, 20]
     }
-    
     return JsonResponse(data)
 
 def stock_chart_data(request):
@@ -111,11 +59,14 @@ def signup_view(request):
             else:
                 form.save()
                 messages.success(request, '註冊成功！')
+                print(form.errors)
                 return redirect('home')
         else:
             messages.error(request, '註冊失敗。請檢查輸入內容。')
+            print(form.errors)
     else:
         form = RegistrationForm()
+        print(form.errors)
     return render(request, 'registration/signup.html', {'form': form})
 
 
@@ -171,10 +122,6 @@ def settings_view(request):
 
     return render(request, 'settings.html', context)
 
-def shopping_view(request):
-    products = ['Product 1', 'Product 2', 'Product 3']  # 假設這裡是您的產品數據
-    return render(request, 'shopping.html', {'products': products})
-
 @login_required
 def update_profile(request):
     user = request.user
@@ -196,7 +143,7 @@ def update_profile(request):
     return render(request, 'settings.html', context)
 
 @login_required
-def update_notification(request):
+def update_notifications(request):
     user = request.user
 
     if request.method == 'POST':
@@ -213,4 +160,7 @@ def update_notification(request):
         'notification_form': notification_form,
     }
 
-    return render(request, 'settings.html', context)
+    
+def customer_view(request):
+    customers = Customer.objects.all()
+    return render(request, 'customer.html', {'customers': customers})

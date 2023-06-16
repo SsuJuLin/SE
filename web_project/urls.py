@@ -18,7 +18,10 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from django.views.generic.base import TemplateView
-from dashboard.views import dashboard_view, signup_view, settings_view, update_profile, update_notification, order_list, order_detail, order_edit, order_delete
+from dashboard.views import (
+    dashboard_view, signup_view,  settings_view, update_profile, update_notification, order_list, order_detail, order_edit, order_delete,
+    sales_chart_data, stock_chart_data, sales_line_chart_data,
+)
 from dashboard import views
 
 urlpatterns = [
@@ -34,8 +37,9 @@ urlpatterns = [
     path('settings/', settings_view, name="settings"),
     path('update_profile/', update_profile, name="update_profile"),
     path('update_notification/', update_notification, name="update_notification"),
-    path('sales-chart-data/', views.sales_chart_data, name='sales_chart_data'),
-    path('stock-chart-data/', views.stock_chart_data, name='stock_chart_data'),
-    path('sales-line-chart-data/', views.sales_line_chart_data, name='sales_line_chart_data'),
-
+    path('sales-chart-data/', sales_chart_data, name='sales_chart_data'),
+    path('stock-chart-data/', stock_chart_data, name='stock_chart_data'),
+    path('sales-line-chart-data/', sales_line_chart_data, name='sales_line_chart_data'),
+	path('shopping/', views.shopping_page, name='shopping'),
+    path('customer/', views.customer_view, name='customer'),
 ]

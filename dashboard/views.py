@@ -10,6 +10,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from .forms import ProfileForm, NotificationForm,RegistrationForm
 from datetime import datetime
+from django.db import models
 
 # Create your views here.
 
@@ -92,11 +93,19 @@ def sales_chart_data(request):
     return JsonResponse(data)
 
 def stock_chart_data(request):
-    # 實現產品庫存圖表數據的邏輯
+    # 從 Product 模型中獲取庫存數據
+    stock_data = Product.get_stock_chart_data()
+
+    # 組織庫存數據為 labels 和 data
+    labels = stock_data['labels']
+    data = stock_data['data']
+
+    # 構建回傳的 data 字典
     data = {
-        "labels": ["Category 1", "Category 2", "Category 3"],
-        "data": [10, 20, 30]
+        "labels": labels,
+        "data": data
     }
+
     return JsonResponse(data)
 
 def signup_view(request):

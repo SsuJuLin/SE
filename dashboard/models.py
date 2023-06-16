@@ -31,12 +31,26 @@ class Product(models.Model):
     quantity = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    sales = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    stock = models.IntegerField(default=0)
+    category = models.CharField(max_length=100, default='default category')
+
+
+    @classmethod
+    def get_sales_line_chart_data(cls):
+        sales_data = cls.objects.values('created_at__month').annotate(total_sales=Sum('quantity')).order_by('created_at__month')
+        months = [data['created_at__month'] for data in sales_data]
+        sales = [data['total_sales'] for data in sales_data]
+
+        return {
+            'labels': months,
+            'data': sales,
+        }
 
     @classmethod
     def get_sales_chart_data(cls):
-        # 獲取產品收入數據並處理成適合圖表的格式
-        sales_data = cls.objects.values('month').annotate(total_sales=Sum('sales')).order_by('month')
-        chart_labels = [data['month'] for data in sales_data]
+        sales_data = cls.objects.values('created_at__month').annotate(total_sales=Sum('quantity')).order_by('created_at__month')
+        chart_labels = [data['created_at__month'] for data in sales_data]
         chart_data = [data['total_sales'] for data in sales_data]
 
         return {
@@ -46,7 +60,6 @@ class Product(models.Model):
 
     @classmethod
     def get_stock_chart_data(cls):
-        # 獲取產品庫存數據並處理成適合圖表的格式
         stock_data = cls.objects.values('category').annotate(total_stock=Sum('stock')).order_by('category')
         chart_labels = [data['category'] for data in stock_data]
         chart_data = [data['total_stock'] for data in stock_data]
@@ -55,21 +68,6 @@ class Product(models.Model):
             'labels': chart_labels,
             'data': chart_data,
         }
-
-    # 添加其他圖表所需的模型方法或管理器方法
-
-    @classmethod
-    def get_sales_line_chart_data(cls):
-        # 獲取銷售折線圖數據並處理成適合圖表的格式
-        sales_data = cls.objects.values('month').annotate(total_sales=Sum('sales')).order_by('month')
-        chart_labels = [data['month'] for data in sales_data]
-        chart_data = [data['total_sales'] for data in sales_data]
-
-        return {
-            'labels': chart_labels,
-            'data': chart_data,
-        }
-
 
 class Order(models.Model):
     customer_name = models.CharField(max_length=100)

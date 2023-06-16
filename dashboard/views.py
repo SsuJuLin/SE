@@ -1,13 +1,17 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product,Order,Customer
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from .forms import ProfileForm, NotificationForm
+from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-from .forms import ProfileForm, NotificationForm, RegistrationForm, OrderForm
+from .forms import ProfileForm, NotificationForm,RegistrationForm
+from django.shortcuts import render
+from .models import Customer
+
 # Create your views here.
 
 def sales_line_chart_data(request):
@@ -64,34 +68,6 @@ def signup_view(request):
         print(form.errors)
     return render(request, 'registration/signup.html', {'form': form})
 
-
-@login_required
-def order_list(request):
-    orders = Order.objects.all()
-    return render(request, 'order_list.html', {'orders': orders})
-
-def order_detail(request, id):
-    order = get_object_or_404(Order, id=id)
-    return render(request, 'order_detail.html', {'order': order})
-
-def order_edit(request, id):
-    order = get_object_or_404(Order, id=id)
-    if request.method == 'POST':
-        form = OrderForm(request.POST, instance=order)
-        if form.is_valid():
-            form.save()
-            return redirect('order_detail', id=order.id)
-    else:
-        form = OrderForm(instance=order)
-    return render(request, 'order_edit.html', {'form': form})
-
-def order_delete(request, id):
-    order = get_object_or_404(Order, id=id)
-    if request.method == 'POST':
-        order.delete()
-        return redirect('order_list')
-    return render(request, 'order_delete.html', {'order': order})
-
 @login_required
 def dashboard_view(request):
     # 在這裡處理從後端獲取數據等相關邏輯
@@ -138,7 +114,7 @@ def update_profile(request):
     return render(request, 'settings.html', context)
 
 @login_required
-def update_notification(request):
+def update_notifications(request):
     user = request.user
 
     if request.method == 'POST':
@@ -155,6 +131,7 @@ def update_notification(request):
         'notification_form': notification_form,
     }
 
+    return render(request, 'settings.html', context)
     
 def customer_view(request):
     customers = Customer.objects.all()
